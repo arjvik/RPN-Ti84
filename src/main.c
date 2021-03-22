@@ -301,13 +301,25 @@ void main() {
 			} else if (key == sk_Prgm) {
 				UNARY_OP(radDegAcos);
 			} else if (key == sk_Vars) {
-				 UNARY_OP(radDegAtan);
+				UNARY_OP(radDegAtan);
 			} else if (key == sk_Square) {
 				UNARY_OP(realSquare);
 			} else if (key == sk_Recip) {
 				UNARY_OP(os_RealInv);
 			} else if (key == sk_2nd) {
 				constantsmode = true;
+			} else if (key == sk_Yequ) {
+				os_ClrHome();
+				os_SetCursorPos(0, 0);
+				os_PutStrFull("Arjun's RPN Calculator");
+				os_SetCursorPos(1, 0);
+				os_PutStrFull("v2.0 (ASM)");
+				os_SetCursorPos(3, 0);
+				os_PutStrFull("git.io/ti84rpn");
+				while (os_GetCSC() == 0);
+				os_ClrHome();
+				draw_full_stack();
+				draw_line_clear(true);
 			}
 		}
 	}
