@@ -1,0 +1,32 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	weak	_remove
+_remove:
+	call	__frameset0
+	ld	hl, (ix + 6)
+	push	hl
+	call	_ti_Delete
+	pop	de
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB0_1
+	ld	a, 0
+	jq	BB0_3
+BB0_1:
+	ld	a, 1
+BB0_3:
+	and	a, 1
+	or	a, a
+	sbc	hl, hl
+	ld	l, a
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
+	extern	__Unwind_SjLj_Register
+	extern	__Unwind_SjLj_Unregister
+	extern	_ti_Delete
+	extern	__frameset0

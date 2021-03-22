@@ -1,0 +1,216 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	public	_exp
+_exp:
+	call	__frameset0
+	ld	hl, (ix + 6)
+	ld	a, (ix + 9)
+	ld	e, a
+	push	de
+	push	hl
+	call	_expf
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_expf
+_expf:
+	ld	hl, -17
+	call	__frameset
+	ld	hl, (ix + 6)
+	ld	e, (ix + 9)
+	ld	bc, 0
+	ld	d, 0
+	ld	a, d
+	call	__fcmp
+	jq	z, BB1_1
+	ld	a, 0
+	jq	BB1_3
+BB1_1:
+	ld	a, 1
+BB1_3:
+	ld	e, 63
+	ld	iy, -8388608
+	bit	0, a
+	jq	z, BB1_4
+	jq	BB1_11
+BB1_4:
+	ld	bc, 1851392
+	ld	a, -58
+	ld	hl, (ix + 6)
+	ld	e, (ix + 9)
+	call	__fcmp
+	jq	m, BB1_5
+	ld	a, 0
+	jq	BB1_7
+BB1_5:
+	ld	a, 1
+BB1_7:
+	bit	0, a
+	jq	z, BB1_8
+	ld	iy, 0
+	ld	e, d
+	jq	BB1_11
+BB1_8:
+	ld	e, 70
+	push	bc
+	pop	hl
+	ld	bc, (ix + 6)
+	ld	a, (ix + 9)
+	call	__fcmp
+	jq	p, BB1_10
+	ld	hl, 5
+	ld	e, 127
+	ld	(_errno), hl
+	jq	BB1_11
+BB1_10:
+	ld	hl, -4675013
+	ld	e, 63
+	call	__fmul
+	ld	(ix + -9), bc
+	ld	l, a
+	ld	(ix + -6), hl
+	push	hl
+	push	bc
+	call	_floor
+	push	hl
+	pop	bc
+	ld	a, e
+	pop	hl
+	pop	hl
+	call	__ftol
+	ld	(ix + -3), bc
+	push	bc
+	pop	hl
+	push	bc
+	pop	iy
+	add	iy, iy
+	sbc	hl, hl
+	ld	a, l
+	call	__ltof
+	push	bc
+	pop	iy
+	ld	e, a
+	ld	bc, (ix + -9)
+	ld	hl, (ix + -6)
+	ld	a, l
+	lea	hl, iy + 0
+	call	__fsub
+	or	a, a
+	sbc	hl, hl
+	ld	e, -65
+	call	__fadd
+	ld	(ix + -6), bc
+	ld	(ix + -9), a
+	push	bc
+	pop	hl
+	ld	e, a
+	call	__fmul
+	push	bc
+	pop	iy
+	ld	d, a
+	ld	hl, 7501212
+	ld	e, 66
+	call	__fmul
+	ld	hl, -1270286
+	ld	e, 70
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	lea	bc, iy + 0
+	ld	a, d
+	call	__fmul
+	ld	hl, -134141
+	ld	e, 73
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix + -6)
+	ld	a, (ix + -9)
+	call	__fmul
+	ld	(ix + -6), bc
+	ld	(ix + -9), a
+	lea	bc, iy + 0
+	ld	a, d
+	ld	hl, -2447051
+	ld	e, 68
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	lea	bc, iy + 0
+	ld	a, d
+	call	__fmul
+	ld	hl, -6290011
+	ld	e, 72
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	lea	bc, iy + 0
+	ld	a, d
+	call	__fmul
+	ld	hl, -4771775
+	ld	e, 74
+	call	__fadd
+	ld	(ix + -13), bc
+	ld	(ix + -10), a
+	ld	iy, (ix + -6)
+	lea	hl, iy + 0
+	ld	d, (ix + -9)
+	ld	e, d
+	call	__fadd
+	ld	hl, -4913933
+	ld	e, 63
+	call	__fmul
+	ld	(ix + -16), bc
+	ld	(ix + -17), a
+	ld	bc, (ix + -13)
+	ld	a, (ix + -10)
+	lea	hl, iy + 0
+	ld	e, d
+	call	__fsub
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix + -16)
+	ld	a, (ix + -17)
+	call	__fdiv
+	ld	l, a
+	ld	de, (ix + -3)
+	push	de
+	push	hl
+	push	bc
+	call	_ldexp
+	push	hl
+	pop	iy
+	pop	hl
+	pop	hl
+	pop	hl
+BB1_11:
+	lea	hl, iy + 0
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
+	extern	_floor
+	extern	__Unwind_SjLj_Register
+	extern	__frameset
+	extern	__Unwind_SjLj_Unregister
+	extern	_ldexp
+	extern	__fadd
+	extern	__fdiv
+	extern	__ltof
+	extern	__fcmp
+	extern	__frameset0
+	extern	_errno
+	extern	__fsub
+	extern	__fmul
+	extern	__ftol

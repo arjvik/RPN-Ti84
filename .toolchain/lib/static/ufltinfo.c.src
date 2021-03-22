@@ -1,0 +1,321 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	public	__u_flt_info
+__u_flt_info:
+	ld	hl, -17
+	call	__frameset
+	ld	de, (ix + 12)
+	ld	bc, 0
+	ld	hl, 12
+	push	hl
+	push	bc
+	push	de
+	call	_memset
+	ld	d, (ix + 9)
+	ld	iy, (ix + 6)
+	pop	hl
+	pop	hl
+	pop	hl
+	lea	hl, iy + 0
+	ld	e, d
+	call	__lcmpzero
+	jq	z, BB0_10
+	ld	bc, 1
+	lea	hl, iy + 0
+	ld	e, d
+	xor	a, a
+	call	__land
+	ld	e, 1
+	ld	a, l
+	xor	a, e
+	bit	0, a
+	jq	nz, BB0_3
+	ld	hl, (ix + 12)
+	ld	(hl), 1
+BB0_3:
+	ld	l, 1
+	lea	bc, iy + 0
+	ld	a, d
+	call	__lshru
+	ld	h, d
+	push	bc
+	pop	de
+	ld	(ix + -4), a
+	ld	l, 9
+	lea	bc, iy + 0
+	ld	a, h
+	call	__lshru
+	push	bc
+	pop	iy
+	ld	c, a
+	ld	a, e
+	cp	a, -1
+	jq	nz, BB0_6
+	ld	hl, (ix + 12)
+	ld	a, (hl)
+	lea	hl, iy + 0
+	ld	e, c
+	call	__lcmpzero
+	jq	nz, BB0_8
+	or	a, 2
+	jq	BB0_9
+BB0_6:
+	ld	(ix + -1), c
+	ld	l, -1
+	ld	a, e
+	or	a, a
+	jq	nz, BB0_11
+	ld	de, -126
+	ld	(ix + -7), de
+	ld	e, l
+	ld	d, 0
+	ld	a, (ix + -1)
+	jq	BB0_12
+BB0_8:
+	or	a, 4
+BB0_9:
+	ld	hl, (ix + 12)
+	ld	(hl), a
+BB0_10:
+	ld	sp, ix
+	pop	ix
+	ret
+BB0_11:
+	ld	bc, 255
+	ex	de, hl
+	ld	e, (ix + -4)
+	ld	d, 0
+	ld	a, d
+	call	__land
+	ld	(ix + -4), hl
+	ld	(ix + -7), e
+	lea	hl, iy + 0
+	ld	e, (ix + -1)
+	ld	bc, -8388608
+	call	__ladd
+	push	hl
+	pop	iy
+	ld	(ix + -1), e
+	ld	hl, (ix + -4)
+	ld	e, (ix + -7)
+	ld	bc, -127
+	ld	a, -1
+	call	__ladd
+	ld	a, (ix + -1)
+	ld	(ix + -7), hl
+BB0_12:
+	ld	l, 5
+	lea	bc, iy + 0
+	call	__lshl
+	ld	(ix + -4), bc
+	ld	(ix + -1), a
+	ld	bc, (ix + -7)
+	ld	(ix + -11), e
+	ld	a, e
+	or	a, a
+	sbc	hl, hl
+	ld	(ix + -10), hl
+	ld	(ix + -12), d
+BB0_13:
+	ld	e, d
+	push	bc
+	pop	iy
+	ld	d, a
+	call	__lcmpu
+	call	__setflag
+	jq	p, BB0_18
+	ld	hl, -1
+	ld	e, 79
+	ld	bc, (ix + -4)
+	ld	a, (ix + -1)
+	call	__lcmpu
+	jq	nc, BB0_16
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, 5
+	xor	a, a
+	call	__ldivu
+	ld	(ix + -4), hl
+	ld	(ix + -1), e
+	ld	hl, (ix + -10)
+	ld	e, (ix + -12)
+	ld	bc, 1
+	call	__ladd
+	ld	(ix + -10), hl
+	ld	(ix + -12), e
+	jq	BB0_17
+BB0_16:
+	push	bc
+	pop	hl
+	ld	e, a
+	call	__ladd
+	ld	(ix + -4), hl
+	ld	(ix + -1), e
+BB0_17:
+	lea	hl, iy + 0
+	ld	e, d
+	ld	bc, -1
+	ld	a, -1
+	call	__ladd
+	push	hl
+	pop	bc
+	ld	a, e
+	ld	d, 0
+	or	a, a
+	sbc	hl, hl
+	jq	BB0_13
+BB0_18:
+	ld	hl, (ix + -7)
+	ld	e, (ix + -11)
+	call	__lcmpzero
+	call	__setflag
+	ld	d, (ix + -1)
+	jq	m, BB0_20
+	ld	a, 0
+	jq	BB0_21
+BB0_20:
+	ld	a, 1
+BB0_21:
+	ld	iy, (ix + 12)
+	ld	bc, 0
+	bit	0, a
+	ld	hl, (ix + -7)
+	jq	nz, BB0_24
+	push	bc
+	pop	hl
+BB0_24:
+	bit	0, a
+	jq	nz, BB0_27
+	xor	a, a
+	ld	e, a
+	jq	BB0_27
+BB0_28:
+	ld	(ix + -11), e
+	ld	iy, (ix + -4)
+	lea	hl, iy + 0
+	ld	e, d
+	ld	a, 32
+	call	__lcmpu
+	ld	a, 1
+	jq	c, BB0_30
+	ld	a, 0
+BB0_30:
+	ld	(ix + -17), a
+	lea	hl, iy + 0
+	ld	d, (ix + -1)
+	ld	e, d
+	ld	bc, 5
+	xor	a, a
+	call	__lmulu
+	ld	(ix + -15), hl
+	ld	(ix + -16), e
+	lea	bc, iy + 0
+	ld	a, d
+	ld	d, (ix + -17)
+	ld	l, 1
+	call	__lshru
+	ld	(ix + -4), bc
+	ld	(ix + -1), a
+	ld	a, d
+	rrc	a
+	sbc	hl, hl
+	push	hl
+	pop	bc
+	push	bc
+	pop	iy
+	add	iy, iy
+	sbc	hl, hl
+	push	hl
+	pop	iy
+	ld	hl, (ix + -10)
+	ld	e, (ix + -12)
+	ld	a, iyl
+	call	__ladd
+	ld	(ix + -10), hl
+	ld	(ix + -12), e
+	bit	0, d
+	jq	nz, BB0_32
+	ld	hl, (ix + -4)
+	ld	(ix + -15), hl
+BB0_32:
+	bit	0, d
+	ld	hl, (ix + -7)
+	ld	d, (ix + -16)
+	jq	nz, BB0_34
+	ld	d, (ix + -1)
+BB0_34:
+	ld	e, (ix + -11)
+	ld	bc, 1
+	xor	a, a
+	call	__ladd
+	ld	bc, (ix + -15)
+	ld	(ix + -4), bc
+	ld	iy, (ix + 12)
+	ld	bc, 0
+BB0_27:
+	ld	(ix + -7), hl
+	call	__lcmpzero
+	call	__setflag
+	ld	(ix + -1), d
+	jq	m, BB0_28
+	ld	hl, (ix + -10)
+	ld	a, l
+	ld	(iy + 1), a
+	xor	a, a
+	ld	e, a
+	ld	iy, 10
+BB0_36:
+	ld	(ix + -7), bc
+	push	bc
+	pop	hl
+	ld	(ix + -10), e
+	lea	bc, iy + 0
+	call	__lcmpu
+	ld	d, a
+	jq	nc, BB0_10
+	ld	bc, (ix + -4)
+	ld	e, (ix + -1)
+	ld	a, e
+	ld	l, 28
+	call	__lshru
+	ld	a, c
+	ld	iy, (ix + 12)
+	lea	hl, iy + 2
+	ld	iy, 10
+	ld	bc, (ix + -7)
+	add	hl, bc
+	ld	(hl), a
+	ld	hl, (ix + -4)
+	ld	bc, -1
+	ld	a, 15
+	call	__land
+	lea	bc, iy + 0
+	ld	a, d
+	call	__lmulu
+	ld	(ix + -4), hl
+	ld	(ix + -1), e
+	ld	hl, (ix + -7)
+	ld	e, (ix + -10)
+	ld	bc, 1
+	call	__ladd
+	push	hl
+	pop	bc
+	jq	BB0_36
+	section	.text,"ax",@progbits
+
+	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
+	extern	__ldivu
+	extern	__setflag
+	extern	_memset
+	extern	__Unwind_SjLj_Register
+	extern	__frameset
+	extern	__lshl
+	extern	__Unwind_SjLj_Unregister
+	extern	__lcmpzero
+	extern	__lmulu
+	extern	__land
+	extern	__lcmpu
+	extern	__lshru
+	extern	__ladd

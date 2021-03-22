@@ -1,0 +1,141 @@
+; ---
+; void os_GetStringInput(char *string, char *buf, size_t size)
+; ---
+	assume	adl=1
+
+kUp           := 3
+kLeft         := 2
+kDown         := 4
+kEnter        := 5
+kClear        := 9
+kRight        := 1
+curLock       := 4
+flags         := $D00080
+curRow        := $D00595
+curUnder      := $D00599
+_PutS         := $207C0
+_PutC         := $207B8
+_PutPS        := $207C8
+_GetKey       := $20D8C
+_CursorOn     := $208B0
+_CursorOff    := $208A8
+_PullDownChk  := $208BC
+_ConvKeyToTok := $20E40
+_GetTokString := $20874
+_PutTokString := $20D74
+
+	public	_os_GetStringInput
+_os_GetStringInput:
+	push	ix
+	ld	ix,0
+	add	ix,sp
+	ld	hl,(ix+6)		; hl -> input string prompt
+	add	hl,de
+	xor	a,a
+	sbc	hl,de
+	jr	z,__nodisp
+	ld	iy,flags
+	call	_PutS
+__nodisp:
+	ld	hl,(curRow)
+	ld	(__savecur),hl
+	ld	a,(ix+12)
+	dec	a
+	ld	(ix+12),a
+	ld	(ix+6),a
+__start:
+	ld	de,(ix+9)
+	jr	__loop
+__skiploop:
+	pop	ix
+	pop	de
+__loop:
+	ld	a,' '
+	ld	(curUnder),a
+	push	de
+	push	ix
+	call	_CursorOn
+__getkey:
+	call	_GetKey
+	call	_CursorOff
+	call	_PullDownChk
+	call	_CursorOn
+	jr	c,__getkey
+	cp	a,kLeft
+	jr	z,__skiploop
+	cp	a,kDown
+	jr	z,__skiploop
+	cp	a,kRight
+	jr	z,__skiploop
+	cp	a,kUp
+	jr	z,__skiploop
+	cp	a,kClear
+	jr	z,__clearpop
+	cp	a,kEnter
+	jr	z,__done
+	call	_ConvKeyToTok
+	call	_GetTokString
+	pop	ix
+	pop	de
+	ld	b,(hl)
+	inc	hl
+	ld	a,(ix+12)
+	sub	a,b
+	jr	nc,__notfull
+	ld	b,(ix+12)
+	xor	a,a
+__notfull:
+	ld	(ix+12),a
+__draw:
+	ld	a,(hl)
+	ld	(de),a
+	inc	hl
+	inc	de
+	call	_PutC
+	djnz	__draw
+	ld	a,(ix+12)
+	or	a,a
+	jr	nz,__loop
+__full:
+	ld	a,' '
+	ld	(curUnder),a
+	push 	de
+	call	_GetKey
+	pop	de
+	cp	a,kClear
+	jr	z,__clear
+	cp	a,kEnter
+	jr	z,__exit
+	jr	__full
+__clearpop:
+	pop	ix
+	pop	de
+__clear:
+__savecur := $+1
+	ld	hl,0
+	ld	(curRow),hl
+	ld	a,(ix+6)
+	ld	b,(ix+12)
+	ld	(ix+12),a
+	sub	a,b
+	ld	b,a
+	inc	b
+__clearloop:
+	ld	a,' '
+	call	_PutC
+	djnz	__clearloop
+	ld	hl,(__savecur)
+	ld	(curRow),hl
+	jp	__start
+__done:
+	pop	ix
+	pop	de
+__exit:
+	ld	a,' '
+	ld	(curUnder),a
+	xor	a,a
+	ld	(de),a
+	call	_CursorOff
+	di
+	pop	ix
+	ret

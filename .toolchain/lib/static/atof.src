@@ -1,0 +1,21 @@
+	assume	adl=1
+
+	public	_atoff, _atof
+_atof := _atoff
+_atoff:
+	pop	hl
+	pop	bc
+	push	bc
+	push	hl
+	or	a,a
+	sbc	hl,hl
+	push	hl
+	push	bc
+	call	_strtod
+	pop	bc
+	pop	hl
+	ret
+
+	extern	__frameset0
+	extern	_strtod
+

@@ -1,0 +1,38 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	weak	_ftell
+_ftell:
+	call	__frameset0
+	ld	iy, (ix + 6)
+	ld	de, 3
+	lea	hl, iy + 0
+	or	a, a
+	sbc	hl, de
+	jq	nc, BB0_2
+	ld	hl, -1
+	ld	e, -1
+	jq	BB0_3
+BB0_2:
+	ld	a, (iy)
+	ld	l, a
+	push	hl
+	call	_ti_Tell
+	ld	e, l
+	ld	d, h
+	pop	hl
+	or	a, a
+	sbc	hl, hl
+	ld	l, e
+	ld	h, d
+	ld	e, 0
+BB0_3:
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
+	extern	__Unwind_SjLj_Register
+	extern	__Unwind_SjLj_Unregister
+	extern	_ti_Tell
+	extern	__frameset0

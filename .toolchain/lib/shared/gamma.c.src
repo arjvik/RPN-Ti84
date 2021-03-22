@@ -1,0 +1,356 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	public	_tgamma
+_tgamma:
+	ld	hl, -9
+	call	__frameset
+	ld	iy, (ix + 6)
+	ld	e, (ix + 9)
+	ld	bc, 0
+	xor	a, a
+	ld	d, 63
+	lea	hl, iy + 0
+	call	__fcmp
+	jq	nz, BB0_3
+	ld	hl, 5
+	ld	(_errno), hl
+	ld	bc, -8388608
+	ld	a, d
+	lea	hl, iy + 0
+	call	__fdiv
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jq	m, BB0_6
+	ld	a, 0
+	jq	BB0_7
+BB0_3:
+	lea	hl, iy + 0
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jq	p, BB0_9
+	lea	bc, iy + 0
+	ld	a, e
+	call	__fneg
+	ld	l, a
+	pea	ix + -4
+	push	hl
+	push	bc
+	call	_modf
+	pop	bc
+	pop	bc
+	pop	bc
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jq	nz, BB0_12
+	ld	hl, 4
+	ld	bc, -4194304
+	ld	(_errno), hl
+	jq	BB0_8
+BB0_6:
+	ld	a, 1
+BB0_7:
+	ld	bc, -8388608
+	bit	0, a
+	bit	0, a
+	jq	nz, BB0_10
+BB0_8:
+	ld	e, 127
+	jq	BB0_11
+BB0_9:
+	ld	l, e
+	push	hl
+	push	iy
+	call	_loggamma
+	pop	bc
+	pop	bc
+	push	de
+	push	hl
+	call	_exp
+	push	hl
+	pop	bc
+	pop	hl
+	pop	hl
+	jq	BB0_11
+BB0_10:
+	ld	e, -1
+	jq	BB0_11
+BB0_12:
+	ld	(ix + -8), e
+	ld	(ix + -7), hl
+	ld	hl, (ix + -4)
+	ld	a, (ix + -1)
+	ld	de, 64
+	push	de
+	ld	de, 0
+	push	de
+	ld	e, a
+	push	de
+	push	hl
+	call	_fmod
+	pop	bc
+	pop	bc
+	pop	bc
+	pop	bc
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jq	nz, BB0_14
+	ld	a, 0
+	jq	BB0_15
+BB0_14:
+	ld	a, 1
+BB0_15:
+	bit	0, a
+	ld	e, 64
+	ld	hl, 4788187
+	bit	0, a
+	ld	d, e
+	ld	bc, (ix + -7)
+	ld	a, (ix + -8)
+	jq	nz, BB0_17
+	ld	d, -64
+BB0_17:
+	ld	(ix + -9), d
+	call	__fmul
+	ld	l, a
+	push	hl
+	push	bc
+	call	_sin
+	ld	(ix + -7), hl
+	ld	(ix + -8), e
+	pop	hl
+	pop	hl
+	ld	bc, -8388608
+	ld	a, 63
+	ld	hl, (ix + 6)
+	ld	e, (ix + 9)
+	call	__fsub
+	ld	l, a
+	push	hl
+	push	bc
+	call	_loggamma
+	pop	bc
+	pop	bc
+	push	de
+	push	hl
+	call	_exp
+	pop	bc
+	pop	bc
+	ld	bc, (ix + -7)
+	ld	a, (ix + -8)
+	call	__fmul
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, 4788187
+	ld	a, (ix + -9)
+	call	__fdiv
+	ld	e, a
+BB0_11:
+	push	bc
+	pop	hl
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	private	_loggamma
+_loggamma:
+	ld	hl, -14
+	call	__frameset
+	ld	hl, (ix + 6)
+	ld	e, (ix + 9)
+	ld	iy, 0
+	ld	a, 65
+	ld	bc, -8388608
+	ld	d, 63
+	ld	(ix + -7), bc
+	ld	c, d
+	ld	(ix + -10), bc
+	lea	bc, iy + 0
+BB1_1:
+	push	hl
+	pop	iy
+	ld	d, e
+	call	__fcmp
+	jq	p, BB1_3
+	ld	bc, (ix + -7)
+	ld	hl, (ix + -10)
+	ld	a, l
+	lea	hl, iy + 0
+	ld	e, d
+	call	__fmul
+	ld	(ix + -7), bc
+	ld	c, a
+	ld	(ix + -10), bc
+	lea	bc, iy + 0
+	ld	a, d
+	ld	hl, -8388608
+	ld	e, 63
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, 0
+	ld	a, 65
+	jq	BB1_1
+BB1_3:
+	ld	(ix + -3), iy
+	lea	bc, iy + 0
+	ld	(ix + -4), d
+	ld	a, d
+	lea	hl, iy + 0
+	ld	e, d
+	call	__fmul
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, -8388608
+	ld	a, 63
+	call	__fdiv
+	push	bc
+	pop	iy
+	ld	d, a
+	ld	hl, -912330
+	ld	e, 60
+	call	__fmul
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, -3011296
+	ld	a, 59
+	call	__fsub
+	push	bc
+	pop	hl
+	ld	e, a
+	lea	bc, iy + 0
+	ld	a, d
+	call	__fmul
+	ld	hl, -305784
+	ld	e, -70
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	lea	bc, iy + 0
+	ld	a, d
+	call	__fmul
+	ld	hl, 6072562
+	ld	e, 58
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	lea	bc, iy + 0
+	ld	a, d
+	call	__fmul
+	ld	hl, 1837505
+	ld	e, -70
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	lea	bc, iy + 0
+	ld	a, d
+	call	__fmul
+	ld	hl, 5246209
+	ld	e, 58
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	lea	bc, iy + 0
+	ld	a, d
+	call	__fmul
+	ld	hl, 3541857
+	ld	e, -69
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	lea	bc, iy + 0
+	ld	a, d
+	call	__fmul
+	ld	hl, -5592405
+	ld	e, 61
+	call	__fadd
+	ld	hl, (ix + -3)
+	ld	e, (ix + -4)
+	call	__fdiv
+	ld	hl, 7028622
+	ld	e, 63
+	call	__fadd
+	ld	(ix + -13), bc
+	ld	(ix + -14), a
+	ld	hl, (ix + -10)
+	push	hl
+	ld	hl, (ix + -7)
+	push	hl
+	call	_log
+	pop	bc
+	pop	bc
+	ld	bc, (ix + -13)
+	ld	a, (ix + -14)
+	call	__fsub
+	ld	hl, (ix + -3)
+	ld	e, (ix + -4)
+	call	__fsub
+	ld	(ix + -7), bc
+	ld	(ix + -10), a
+	ld	bc, (ix + -3)
+	ld	a, (ix + -4)
+	or	a, a
+	sbc	hl, hl
+	ld	e, -65
+	call	__fadd
+	ld	(ix + -13), bc
+	ld	(ix + -14), a
+	ld	a, (ix + -4)
+	ld	l, a
+	push	hl
+	ld	hl, (ix + -3)
+	push	hl
+	call	_log
+	pop	bc
+	pop	bc
+	ld	bc, (ix + -13)
+	ld	a, (ix + -14)
+	call	__fmul
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix + -7)
+	ld	a, (ix + -10)
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
+	extern	__Unwind_SjLj_Register
+	extern	_exp
+	extern	__frameset
+	extern	__fneg
+	extern	_log
+	extern	_modf
+	extern	__fdiv
+	extern	_sin
+	extern	__fadd
+	extern	__Unwind_SjLj_Unregister
+	extern	__fcmp
+	extern	_errno
+	extern	_fmod
+	extern	__fsub
+	extern	__fmul

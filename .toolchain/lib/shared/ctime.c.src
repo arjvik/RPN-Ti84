@@ -1,0 +1,21 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	public	_ctime
+_ctime:
+	call	__frameset0
+	ld	hl, (ix + 6)
+	push	hl
+	call	_localtime
+	pop	de
+	ld	(ix + 6), hl
+	pop	ix
+	jp	_asctime
+	section	.text,"ax",@progbits
+
+	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
+	extern	__Unwind_SjLj_Register
+	extern	__Unwind_SjLj_Unregister
+	extern	_localtime
+	extern	__frameset0
+	extern	_asctime

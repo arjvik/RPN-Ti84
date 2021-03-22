@@ -1,0 +1,59 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	weak	_fopen
+_fopen:
+	call	__frameset0
+	ld	hl, (ix + 6)
+	ld	de, (ix + 9)
+	ld	a, (_inited)
+	bit	0, a
+	jq	nz, BB0_2
+	call	_ti_CloseAll
+	ld	de, (ix + 9)
+	ld	hl, (ix + 6)
+	ld	a, 1
+	ld	(_inited), a
+BB0_2:
+	push	de
+	push	hl
+	call	_ti_Open
+	ld	e, a
+	pop	hl
+	pop	hl
+	or	a, a
+	jq	nz, BB0_4
+	ld	iy, 0
+	jq	BB0_5
+BB0_4:
+	ld	iy, __file_streams
+	or	a, a
+	sbc	hl, hl
+	ld	l, e
+	ld	bc, 3
+	call	__imulu
+	push	hl
+	pop	bc
+	add	iy, bc
+	ld	(iy), e
+	ld	(iy + 1), 0
+	ld	(iy + 2), 0
+BB0_5:
+	lea	hl, iy + 0
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.bss,"aw",@nobits
+	private	_inited
+_inited:
+	rb	1
+
+	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
+	extern	_ti_CloseAll
+	extern	__Unwind_SjLj_Register
+	extern	__Unwind_SjLj_Unregister
+	extern	_ti_Open
+	extern	__imulu
+	extern	__file_streams
+	extern	__frameset0

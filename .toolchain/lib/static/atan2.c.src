@@ -1,0 +1,158 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	public	_atan2
+_atan2:
+	call	__frameset0
+	ld	hl, (ix + 6)
+	ld	a, (ix + 9)
+	ld	de, (ix + 12)
+	ld	c, (ix + 15)
+	push	bc
+	push	de
+	ld	e, a
+	push	de
+	push	hl
+	call	_atan2f
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_atan2f
+_atan2f:
+	call	__frameset0
+	ld	iy, (ix + 6)
+	ld	d, (ix + 9)
+	ld	hl, (ix + 12)
+	ld	e, (ix + 15)
+	lea	bc, iy + 0
+	ld	a, d
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	lea	bc, iy + 0
+	ld	a, d
+	call	__fcmp
+	jq	nz, BB1_3
+	lea	hl, iy + 0
+	ld	e, d
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jq	p, BB1_6
+	ld	a, 0
+	jq	BB1_7
+BB1_3:
+	ld	hl, (ix + 12)
+	ld	e, (ix + 15)
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jq	p, BB1_9
+	lea	hl, iy + 0
+	ld	e, d
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jq	p, BB1_12
+	lea	bc, iy + 0
+	ld	a, d
+	ld	hl, (ix + 12)
+	ld	e, (ix + 15)
+	call	__fdiv
+	ld	l, a
+	push	hl
+	push	bc
+	call	_satan
+	push	hl
+	pop	bc
+	ld	a, e
+	pop	hl
+	pop	hl
+	ld	hl, 4788187
+	ld	e, -64
+	call	__fadd
+	jq	BB1_14
+BB1_6:
+	ld	a, 1
+BB1_7:
+	ld	hl, -3600421
+	bit	0, a
+	jq	nz, BB1_11
+	ld	e, -65
+	jq	BB1_15
+BB1_9:
+	or	a, a
+	sbc	hl, hl
+	ld	e, 0
+	lea	bc, iy + 0
+	ld	a, d
+	call	__fcmp
+	jq	p, BB1_13
+	ld	hl, (ix + 12)
+	ld	e, (ix + 15)
+	call	__fdiv
+	ld	l, a
+	push	hl
+	push	bc
+	call	_satan
+	pop	bc
+	pop	bc
+	jq	BB1_15
+BB1_11:
+	ld	e, 63
+	jq	BB1_15
+BB1_12:
+	lea	bc, iy + 0
+	ld	a, d
+	call	__fneg
+	ld	hl, (ix + 12)
+	ld	e, (ix + 15)
+	call	__fdiv
+	ld	l, a
+	push	hl
+	push	bc
+	call	_satan
+	pop	bc
+	pop	bc
+	ld	bc, 4788187
+	ld	a, 64
+	call	__fsub
+	jq	BB1_14
+BB1_13:
+	call	__fneg
+	ld	hl, (ix + 12)
+	ld	e, (ix + 15)
+	call	__fdiv
+	ld	l, a
+	push	hl
+	push	bc
+	call	_satan
+	push	hl
+	pop	bc
+	ld	a, e
+	pop	hl
+	pop	hl
+	call	__fneg
+BB1_14:
+	push	bc
+	pop	hl
+	ld	e, a
+BB1_15:
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
+	extern	__Unwind_SjLj_Register
+	extern	__Unwind_SjLj_Unregister
+	extern	__fneg
+	extern	__fdiv
+	extern	__fadd
+	extern	_satan
+	extern	__fcmp
+	extern	__frameset0
+	extern	__fsub

@@ -1,0 +1,125 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	public	_ldexp
+_ldexp:
+	call	__frameset0
+	ld	hl, (ix + 6)
+	ld	a, (ix + 9)
+	ld	de, (ix + 12)
+	push	de
+	ld	e, a
+	push	de
+	push	hl
+	call	_ldexpf
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_ldexpf
+_ldexpf:
+	call	__frameset0
+	ld	hl, (ix + 6)
+	ld	e, (ix + 9)
+	ld	bc, 0
+	ld	d, 0
+	ld	iyl, e
+	ld	a, d
+	call	__fcmp
+	jq	z, BB1_1
+	ld	a, 0
+	jq	BB1_3
+BB1_1:
+	ld	a, 1
+BB1_3:
+	bit	0, a
+	ld	e, iyl
+	jq	z, BB1_4
+	jq	BB1_9
+BB1_4:
+	push	hl
+	pop	bc
+	ld	iy, 255
+	ld	l, 23
+	ld	a, e
+	call	__lshru
+	push	bc
+	pop	hl
+	lea	bc, iy + 0
+	call	__iand
+	push	hl
+	pop	iy
+	ld	bc, (ix + 12)
+	add	iy, bc
+	ld	bc, 256
+	lea	hl, iy + 0
+	or	a, a
+	sbc	hl, bc
+	call	__setflag
+	jq	m, BB1_6
+	ld	hl, -8388608
+	ld	bc, 5
+	ld	(_errno), bc
+	push	de
+	ld	de, (ix + 6)
+	push	de
+	ld	de, 127
+	push	de
+	push	hl
+	call	_copysignf
+	push	hl
+	pop	bc
+	ld	d, e
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	jq	BB1_9
+BB1_6:
+	ld	bc, 1
+	lea	hl, iy + 0
+	or	a, a
+	sbc	hl, bc
+	call	__setflag
+	jq	p, BB1_8
+	ld	hl, 5
+	ld	(_errno), hl
+	ld	bc, 0
+	jq	BB1_9
+BB1_8:
+	xor	a, a
+	ld	l, 23
+	ld	bc, (ix + 12)
+	call	__lshl
+	push	bc
+	pop	hl
+	ld	d, e
+	ld	e, a
+	ld	bc, (ix + 6)
+	ld	a, d
+	call	__ladd
+	push	hl
+	pop	bc
+	ld	d, e
+BB1_9:
+	push	bc
+	pop	hl
+	ld	e, d
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
+	extern	__setflag
+	extern	__Unwind_SjLj_Register
+	extern	__Unwind_SjLj_Unregister
+	extern	__lshl
+	extern	__iand
+	extern	_copysignf
+	extern	__fcmp
+	extern	__frameset0
+	extern	_errno
+	extern	__lshru
+	extern	__ladd

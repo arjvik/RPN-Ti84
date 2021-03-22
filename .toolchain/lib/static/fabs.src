@@ -1,0 +1,13 @@
+	assume	adl=1
+
+	public	_fabs, _fabsf
+_fabsf := _fabs
+_fabs:
+	pop	bc
+	pop	hl
+	pop	de
+	push	de
+	push	hl
+	push	bc
+	res	7,e
+	ret

@@ -1,0 +1,95 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	public	__u_flt_rnd
+__u_flt_rnd:
+	ld	hl, -4
+	call	__frameset
+	ld	a, (ix + 9)
+	ld	c, 0
+	ld	l, a
+	rlc	l
+	sbc	hl, hl
+	cp	a, 1
+	call	__setflag
+	jq	m, BB0_13
+	ld	iyl, 9
+	ld	l, a
+	ex	de, hl
+	ld	a, c
+	ld	(ix + -4), de
+BB0_2:
+	ld	bc, 0
+	push	af
+	ld	a, iyl
+	ld	(ix + -1), a
+	pop	af
+	ld	c, iyl
+	push	bc
+	pop	hl
+	or	a, a
+	sbc	hl, de
+	call	__setflag
+	ld	iy, (ix + 6)
+	lea	iy, iy + 2
+	jq	m, BB0_6
+	add	iy, bc
+	ld	a, (iy)
+	cp	a, 5
+	ld	a, 1
+	jq	nc, BB0_5
+	ld	a, 0
+BB0_5:
+	and	a, 1
+	ld	(iy), 0
+	push	af
+	ld	a, (ix + -1)
+	ld	iyl, a
+	pop	af
+	dec	iyl
+	ld	de, (ix + -4)
+	jq	BB0_2
+BB0_6:
+	ld	l, 1
+	xor	a, l
+	bit	0, a
+	ld	e, (ix + -1)
+	jq	nz, BB0_8
+BB0_7:
+	lea	hl, iy + 0
+	add	hl, bc
+	inc	(hl)
+BB0_8:
+	ld	a, e
+	or	a, a
+	jq	z, BB0_11
+	ld	bc, 0
+	ld	c, e
+	lea	hl, iy + 0
+	add	hl, bc
+	ld	a, (hl)
+	cp	a, 10
+	jq	nz, BB0_11
+	ld	(hl), 0
+	dec	e
+	ld	bc, 0
+	ld	c, e
+	jq	BB0_7
+BB0_11:
+	ld	iy, (ix + 6)
+	ld	a, (iy + 2)
+	cp	a, 10
+	jq	nz, BB0_13
+	inc	(iy + 1)
+	ld	(iy + 2), 1
+BB0_13:
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
+	extern	__setflag
+	extern	__Unwind_SjLj_Register
+	extern	__Unwind_SjLj_Unregister
+	extern	__frameset

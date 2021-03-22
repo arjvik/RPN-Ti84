@@ -1,0 +1,84 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	public	_frexp
+_frexp:
+	call	__frameset0
+	ld	hl, (ix + 6)
+	ld	a, (ix + 9)
+	ld	de, (ix + 12)
+	push	de
+	ld	e, a
+	push	de
+	push	hl
+	call	_frexpf
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_frexpf
+_frexpf:
+	call	__frameset0
+	ld	iy, (ix + 6)
+	ld	d, (ix + 9)
+	ld	bc, 0
+	xor	a, a
+	lea	hl, iy + 0
+	ld	e, d
+	call	__fcmp
+	jq	z, BB1_1
+	ld	a, 0
+	jq	BB1_3
+BB1_1:
+	ld	a, 1
+BB1_3:
+	ld	hl, (ix + 12)
+	bit	0, a
+	jq	nz, BB1_8
+	ld	bc, -8388608
+	ld	a, 127
+	lea	hl, iy + 0
+	ld	e, d
+	call	__land
+	ld	bc, 0
+	ld	a, -63
+	call	__ladd
+	push	hl
+	pop	bc
+	ld	a, e
+	lea	hl, iy + 0
+	ld	e, d
+	call	__lsub
+	push	hl
+	pop	iy
+	ld	d, e
+	ld	l, 23
+	call	__lshrs
+	ld	hl, (ix + 12)
+	jq	BB1_5
+BB1_8:
+	ld	bc, 0
+BB1_5:
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB1_7
+	ld	(hl), bc
+BB1_7:
+	lea	hl, iy + 0
+	ld	e, d
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
+	extern	__Unwind_SjLj_Register
+	extern	__Unwind_SjLj_Unregister
+	extern	__lsub
+	extern	__land
+	extern	__frameset0
+	extern	__lshrs
+	extern	__fcmp
+	extern	__ladd

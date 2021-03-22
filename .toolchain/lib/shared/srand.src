@@ -1,0 +1,12 @@
+; void srand(unsigned int seed);
+	assume	adl=1
+
+	public	_srand
+_srand:
+	pop	bc
+	ex	(sp),hl
+	push	bc
+	xor	a,a
+	jp	__setstate
+
+	extern	__setstate

@@ -1,0 +1,21 @@
+	assume	adl=1
+
+	public	_atoi, _atol, _atos
+_atos := _atoi
+_atol := _atoi
+_atoi:
+	pop	bc
+	ex	(sp),hl
+	push	bc
+	ld	bc,10
+	push	bc
+	ld	c,b
+	push	bc
+	push	hl
+	call	_strtol
+	pop	bc
+	pop	bc
+	pop	bc
+	ret
+
+	extern	_strtol

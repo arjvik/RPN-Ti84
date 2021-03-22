@@ -1,0 +1,12 @@
+	assume	adl=1
+
+	public _rand
+_rand:
+	call	_random
+	ld	de,8388608
+	sbc	hl,de
+	ret	p
+	add	hl,de
+	ret
+
+	extern  _random

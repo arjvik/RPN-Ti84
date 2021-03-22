@@ -1,0 +1,299 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	public	_tan
+_tan:
+	call	__frameset0
+	ld	hl, (ix + 6)
+	ld	a, (ix + 9)
+	ld	e, a
+	push	de
+	push	hl
+	call	_tanf
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_tanf
+_tanf:
+	ld	hl, -15
+	call	__frameset
+	ld	hl, (ix + 6)
+	ld	e, (ix + 9)
+	ld	bc, 0
+	xor	a, a
+	ld	iyh, e
+	call	__fcmp
+	jq	m, BB1_2
+	ld	d, 0
+	jq	BB1_3
+BB1_2:
+	ld	d, 1
+BB1_3:
+	push	hl
+	pop	bc
+	ld	a, iyh
+	call	__fneg
+	bit	0, d
+	ld	iyl, 63
+	bit	0, d
+	jq	nz, BB1_7
+	push	af
+	ld	a, iyl
+	ld	(ix + -8), a
+	pop	af
+	jq	BB1_8
+BB1_7:
+	ld	e, -65
+	ld	(ix + -8), e
+BB1_8:
+	bit	0, d
+	jq	nz, BB1_10
+	push	hl
+	pop	bc
+BB1_10:
+	ld	hl, -6096509
+	bit	0, d
+	jq	nz, BB1_12
+	ld	a, iyh
+BB1_12:
+	ld	e, iyl
+	call	__fmul
+	ld	l, a
+	pea	ix + -4
+	push	hl
+	push	bc
+	call	_modff
+	push	hl
+	pop	iy
+	ld	(ix + -7), e
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	bc, (ix + -4)
+	ld	a, (ix + -1)
+	call	__ftol
+	push	bc
+	pop	hl
+	ld	bc, 4
+	call	__irems
+	push	hl
+	pop	de
+	ld	bc, 1
+	or	a, a
+	sbc	hl, bc
+	jq	nz, BB1_15
+	ld	hl, -8388608
+	push	hl
+	pop	bc
+	ld	a, 63
+	lea	hl, iy + 0
+	ld	e, (ix + -7)
+	call	__fsub
+	push	bc
+	pop	iy
+	ld	e, a
+	ld	hl, -8388608
+	ld	(ix + -14), hl
+	ld	a, 1
+	jq	BB1_14
+BB1_15:
+	ld	bc, 2
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	jq	nz, BB1_17
+	ld	bc, -8388608
+	ld	a, (ix + -8)
+	call	__fneg
+	ld	(ix + -14), bc
+	ld	(ix + -8), a
+	ld	a, 1
+	ld	(ix + -15), a
+	jq	BB1_20
+BB1_17:
+	ld	(ix + -11), iy
+	ld	bc, 3
+	ex	de, hl
+	or	a, a
+	sbc	hl, bc
+	ld	iy, -8388608
+	jq	nz, BB1_19
+	lea	bc, iy + 0
+	ld	a, 63
+	ld	hl, (ix + -11)
+	ld	e, (ix + -7)
+	call	__fsub
+	push	bc
+	pop	hl
+	ld	e, a
+	lea	bc, iy + 0
+	push	hl
+	pop	iy
+	ld	a, (ix + -8)
+	call	__fneg
+	ld	(ix + -14), bc
+	ld	(ix + -8), a
+	xor	a, a
+BB1_14:
+	ld	(ix + -15), a
+	jq	BB1_21
+BB1_19:
+	ld	(ix + -14), iy
+	xor	a, a
+	ld	(ix + -15), a
+	ld	iy, (ix + -11)
+BB1_20:
+	ld	e, (ix + -7)
+BB1_21:
+	ld	(ix + -11), iy
+	lea	bc, iy + 0
+	ld	a, e
+	lea	hl, iy + 0
+	ld	(ix + -7), e
+	call	__fmul
+	push	bc
+	pop	iy
+	ld	d, a
+	ld	hl, 920513
+	ld	e, 56
+	call	__fmul
+	ld	hl, 798741
+	ld	e, 61
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	lea	bc, iy + 0
+	ld	a, d
+	call	__fmul
+	ld	hl, 7871510
+	ld	e, -63
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	lea	bc, iy + 0
+	ld	a, d
+	call	__fmul
+	ld	hl, -8126702
+	ld	e, 68
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	lea	bc, iy + 0
+	ld	a, d
+	call	__fmul
+	ld	hl, 4993232
+	ld	e, -58
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix + -11)
+	ld	a, (ix + -7)
+	call	__fmul
+	ld	(ix + -7), bc
+	ld	(ix + -11), a
+	lea	bc, iy + 0
+	ld	a, d
+	ld	hl, 1802457
+	ld	e, -61
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	lea	bc, iy + 0
+	ld	a, d
+	call	__fmul
+	ld	hl, -7016957
+	ld	e, 69
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	lea	bc, iy + 0
+	ld	a, d
+	call	__fmul
+	ld	hl, -8258072
+	ld	e, -58
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix + -7)
+	ld	a, (ix + -11)
+	call	__fdiv
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	a, (ix + -15)
+	ld	c, 1
+	xor	a, c
+	bit	0, a
+	jq	nz, BB1_27
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jq	nz, BB1_26
+	ld	hl, 5
+	ld	(_errno), hl
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix + -14)
+	ld	a, (ix + -8)
+	call	__fcmp
+	ld	hl, -8388608
+	jq	m, BB1_29
+	ld	a, 0
+	jq	BB1_30
+BB1_26:
+	ld	bc, -8388608
+	ld	a, 63
+	call	__fdiv
+	push	bc
+	pop	hl
+	ld	e, a
+BB1_27:
+	ld	bc, (ix + -14)
+	ld	a, (ix + -8)
+	call	__fmul
+	push	bc
+	pop	hl
+	ld	e, a
+BB1_28:
+	ld	sp, ix
+	pop	ix
+	ret
+BB1_29:
+	ld	a, 1
+BB1_30:
+	bit	0, a
+	jq	z, BB1_32
+	ld	e, 127
+	jq	BB1_28
+BB1_32:
+	ld	e, -1
+	jq	BB1_28
+	section	.text,"ax",@progbits
+
+	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
+	extern	__Unwind_SjLj_Register
+	extern	__Unwind_SjLj_Unregister
+	extern	__frameset
+	extern	__fneg
+	extern	__irems
+	extern	__fdiv
+	extern	_modff
+	extern	__fadd
+	extern	__fcmp
+	extern	__frameset0
+	extern	_errno
+	extern	__fsub
+	extern	__fmul
+	extern	__ftol

@@ -1,0 +1,108 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	weak	_fread
+_fread:
+	ld	hl, -6
+	call	__frameset
+	ld	hl, (ix + 15)
+	ld	de, 0
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	nz, BB0_1
+	jq	BB0_9
+BB0_1:
+	ld	hl, (ix + 6)
+	ld	(ix + -3), hl
+	ld	iy, (ix + 12)
+	ld	bc, 1
+	ld	hl, (ix + 15)
+	or	a, a
+	sbc	hl, bc
+	jq	nz, BB0_2
+	ld	de, 1
+	lea	hl, iy + 0
+	ld	bc, (ix + 9)
+	call	__imulu
+BB0_4:
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB0_12
+	ld	(ix + -6), hl
+	push	de
+	call	_fgetc
+	ld	de, -1
+	push	de
+	pop	bc
+	push	hl
+	pop	de
+	pop	hl
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB0_11
+	ld	a, e
+	ld	hl, (ix + -3)
+	ld	(hl), a
+	inc	hl
+	ld	(ix + -3), hl
+	ld	hl, (ix + -6)
+	dec	hl
+	ld	iy, (ix + 12)
+	ld	de, 1
+	jq	BB0_4
+BB0_2:
+	ld	bc, 2
+	ld	hl, (ix + 15)
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB0_9
+	ld	hl, (ix + 15)
+	ld	a, (hl)
+	ld	l, a
+	push	hl
+	push	iy
+	ld	hl, (ix + 9)
+	push	hl
+	ld	hl, (ix + 6)
+	push	hl
+	call	_ti_Read
+	push	hl
+	pop	bc
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	push	bc
+	pop	hl
+	ld	de, (ix + 12)
+	or	a, a
+	sbc	hl, de
+	jq	z, BB0_9
+	ld	iy, (ix + 15)
+	ld	(iy + 2), 1
+	push	bc
+	pop	de
+	jq	BB0_9
+BB0_12:
+	lea	de, iy + 0
+	jq	BB0_9
+BB0_11:
+	ld	de, (ix + 12)
+BB0_9:
+	ex	de, hl
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
+	extern	__Unwind_SjLj_Register
+	extern	__Unwind_SjLj_Unregister
+	extern	__frameset
+	extern	_fgetc
+	extern	__imulu
+	extern	_ti_Read

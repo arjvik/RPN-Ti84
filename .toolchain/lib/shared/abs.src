@@ -1,0 +1,15 @@
+; int abs(int);
+        assume  adl=1
+
+	public  _abs
+_abs:
+	pop	hl
+	pop	de
+	push	de
+	push	hl
+	or	a,a
+	sbc	hl,hl
+	sbc	hl,de
+	ret	p
+	ex	de,hl
+	ret
