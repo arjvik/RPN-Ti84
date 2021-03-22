@@ -2,9 +2,8 @@
 # Makefile Options
 # ----------------------------
 
-NAME ?= DEMO
-ICON ?= icon.png
-DESCRIPTION ?= "CE C Toolchain Demo"
+NAME ?= RPN2ASM
+DESCRIPTION ?= "ReversePolishNotation V2"
 COMPRESSED ?= NO
 ARCHIVED ?= NO
 
