@@ -3,7 +3,7 @@
 # ----------------------------
 
 NAME ?= RPN2ASM
-DESCRIPTION ?= "ReversePolishNotation V2"
+DESCRIPTION ?= "Reverse Polish Notation"
 COMPRESSED ?= NO
 ARCHIVED ?= NO
 
