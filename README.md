@@ -32,3 +32,8 @@ tilp bin/RPN2ASM.8xp #transfers to calculator
 - Easy line editing
 - Extensible code
 - and many more
+
+### Credits
+
+- [CE-Programming/toolchain](https://github.com/CE-Programming/toolchain) (`.toolchain/`)
+- [tgrysztar/fasmg](https://github.com/tgrysztar/fasmg) (`.fasmg/`)
