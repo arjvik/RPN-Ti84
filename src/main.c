@@ -109,7 +109,6 @@ void new_entry() {
 	negative = false;
 	stack[idx] = r_0;
 	draw_line_clear(true);
-
 }
 
 void new_problem() {
@@ -303,6 +302,13 @@ void main() {
 				stack[idx] = os_RealFloor(&stack[idx]);
 				if (negative) os_RealNeg(&stack[idx]);
 				draw_line_clear(true);
+			} else if (key == sk_Up) {
+				if (idx >= 1) {
+					delete_stack(idx-1);
+					stack[idx-1] = stack[idx];
+					stack[idx] = r_0;
+					idx--;
+				}
 			} else if (key == sk_Enter) {
 				if (idx == 98) {
 					new_problem();
