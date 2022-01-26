@@ -39,16 +39,10 @@ void draw_line_clear(bool clear) {
 	os_PutStrFull(buffer);
 }
 
-#define OVERDRAW_IS_REDRAW 0
-#if OVERDRAW_IS_REDRAW
+#define OVERDRAW_IS_REDRAW false
 void draw_line() {
-	draw_line_clear(true);
+	draw_line_clear(OVERDRAW_IS_REDRAW);
 }
-#else
-void draw_line() {
-	draw_line_clear(false);
-}
-#endif
 
 void drawdecimal_line() {
 	os_SetCursorPos(9, 0);
@@ -95,6 +89,21 @@ void delete_stack(uint8_t row) {
 	}
 }
 
+void hint(char *str) {
+	os_SetCursorPos(0, 25);
+	os_PutStrFull(str);
+}
+
+void constants_mode(bool enabled) {
+	if (enabled) {
+		constantsmode = true;
+		hint("^");
+	} else {
+		constantsmode = false;
+		hint(" ");
+	}
+}
+
 void new_entry() {
 	decimal = false;
 	negative = false;
@@ -107,7 +116,6 @@ void new_problem() {
 	idx = 0;
 	os_ClrHome();
 	buffer[0] = 0;
-	constantsmode = false;
 	new_entry();
 }
 
@@ -179,6 +187,15 @@ real_t realSquare(real_t *a) {
 	return os_RealMul(a, a);
 }
 
+real_t realTenExp(real_t *a) {
+	return os_RealPow(&r_10, a);
+}
+
+real_t realScientificNotation(real_t *a, real_t *b) {
+	real_t m = os_RealPow(&r_10, b);
+	return os_RealMul(a, &m);
+}
+
 void main() {
 	uint8_t key;
 	
@@ -189,15 +206,41 @@ void main() {
 		if (constantsmode) {
 			if (key == sk_Power) {
 				stack[idx] = r_pi;
-				constantsmode = false;
+				constants_mode(false);
 				draw_line_clear(true);
 			} else if (key == sk_Div) {
 				stack[idx] = r_e;
-				constantsmode = false;
+				constants_mode(false);
 				draw_line_clear(true);
+			} else if (key == sk_Log) {
+				UNARY_OP(realTenExp);
+				constants_mode(false);
+			} else if (key == sk_Ln) {
+				UNARY_OP(os_RealExp);
+				constants_mode(false);
+			} else if (key == sk_Sin) { // asin and cos switched intentionally
+				UNARY_OP(radDegAcos);   // to correct TI OS or tice.h bug
+				constants_mode(false);
+			} else if (key == sk_Cos) { // asin and acos switched intentionally
+				UNARY_OP(radDegAsin);   // to correct TI OS or tice.h bug
+				constants_mode(false);
+			} else if (key == sk_Tan) {
+				UNARY_OP(radDegAtan);
+				constants_mode(false);
+			} else if (key == sk_Square) {
+				UNARY_OP(os_RealSqrt);
+				constants_mode(false);
+			} else if (key == sk_Comma) {
+				BINARY_OP(realScientificNotation);
+				constants_mode(false);
+			} else if (key == sk_Apps) {
+				radians = !radians;
+				constants_mode(false);
+				hint(radians ? "r" : "d");
 			} else if (key == sk_2nd) {
-				constantsmode = false;
+				constants_mode(false);
 			} else if (key == sk_Del) {
+				constants_mode(false);
 				new_problem();
 			}
 		} else {
@@ -270,11 +313,7 @@ void main() {
 			} else if (key == sk_Mode) {
 				scimode = !scimode;
 				draw_full_stack();
-			} else if (key == sk_Stat) {
-				radians = !radians;
-				os_SetCursorPos(9, 0);
-				os_PutStrFull(radians ? "r" : "d");
-			}else if (key == sk_Del) {
+			} else if (key == sk_Del) {
 				new_problem();
 			} else if (key == sk_Add) {
 				BINARY_OP(os_RealAdd);
@@ -296,18 +335,14 @@ void main() {
 				UNARY_OP(degRadCos);
 			} else if (key == sk_Tan) {
 				UNARY_OP(degRadTan);
-			} else if (key == sk_Apps) {
-				UNARY_OP(radDegAsin);
-			} else if (key == sk_Prgm) {
-				UNARY_OP(radDegAcos);
-			} else if (key == sk_Vars) {
-				UNARY_OP(radDegAtan);
 			} else if (key == sk_Square) {
 				UNARY_OP(realSquare);
 			} else if (key == sk_Recip) {
 				UNARY_OP(os_RealInv);
+			} else if (key == sk_Comma) {
+				BINARY_OP(realScientificNotation);
 			} else if (key == sk_2nd) {
-				constantsmode = true;
+				constants_mode(true);
 			} else if (key == sk_Yequ) {
 				os_ClrHome();
 				os_SetCursorPos(0, 0);
