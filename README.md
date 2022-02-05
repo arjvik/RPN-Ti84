@@ -18,8 +18,8 @@ Naturally, I waited until the night before the exam to start working on this pro
 
 ```bash
 source env.sh
-make #compiles .8xp file
-tilp bin/RPN2ASM.8xp #transfers to calculator
+make # Compiles .8xp file
+make install # Transfers to calculator (using TiLP)
 ```
 
 ### Features

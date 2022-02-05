@@ -17,3 +17,7 @@ $(error CEDEV environment path variable is not set)
 endif
 
 include $(CEDEV)/meta/makefile.mk
+
+.PHONY: install
+install: bin/$(TARGET8XP)
+	$(Q)tilp bin/$(TARGET8XP)
