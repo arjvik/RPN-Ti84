@@ -1,6 +1,6 @@
 #include <tice.h>
 
-real_t stack[99];
+real_t stack[101];
 char buffer[50];
 uint8_t idx;
 bool decimal;
@@ -10,7 +10,7 @@ bool scimode = true;
 bool radians = true;
 real_t decimalfactor;
 
-real_t r_0, r_1, r_2, r_3, r_4, r_5, r_6, r_7, r_8, r_9, r_10, r_ln10, r_pi, r_e;
+real_t r_0, r_1, r_2, r_3, r_4, r_5, r_6, r_7, r_8, r_9, r_10, r_n1, r_ln10, r_pi, r_e;
 
 void init_real_constants() {
 	r_0  = os_Int24ToReal(0);
@@ -24,9 +24,10 @@ void init_real_constants() {
 	r_8  = os_Int24ToReal(8);
 	r_9  = os_Int24ToReal(9);
 	r_10 = os_Int24ToReal(10);
-	r_ln10 = os_FloatToReal(2.30258509299);
-	r_pi   = os_FloatToReal(3.14159265359);
-	r_e    = os_FloatToReal(2.71828182846);
+	r_n1 = os_Int24ToReal(-1);
+	r_ln10 = os_RealLog(&r_10);
+	r_pi   = os_RealAsinRad(&r_n1); // See CE-Programming/toolchain PR #358
+	r_e    = os_RealExp(&r_1);
 }
 
 void draw_line_clear(bool clear) {
@@ -218,10 +219,10 @@ void main() {
 				UNARY_OP(os_RealExp);
 				constants_mode(false);
 			} else if (key == sk_Sin) { // asin and cos switched intentionally
-				UNARY_OP(radDegAcos);   // to correct TI OS or tice.h bug
+				UNARY_OP(radDegAcos);   // See CE-Programming/toolchain PR #358
 				constants_mode(false);
-			} else if (key == sk_Cos) { // asin and acos switched intentionally
-				UNARY_OP(radDegAsin);   // to correct TI OS or tice.h bug
+			} else if (key == sk_Cos) {
+				UNARY_OP(radDegAsin);
 				constants_mode(false);
 			} else if (key == sk_Tan) {
 				UNARY_OP(radDegAtan);
@@ -310,7 +311,7 @@ void main() {
 					idx--;
 				}
 			} else if (key == sk_Enter) {
-				if (idx == 98) {
+				if (idx >= 99) {
 					new_problem();
 				} else {
 					draw_stack(idx++);
@@ -356,7 +357,9 @@ void main() {
 				os_SetCursorPos(1, 0);
 				os_PutStrFull("v2.1 (ASM)");
 				os_SetCursorPos(3, 0);
-				os_PutStrFull("git.io/ti84rpn");
+				os_PutStrFull("Visit git.io/ti84rpn");
+				os_SetCursorPos(4, 0);
+				os_PutStrFull("for help and more info");
 				while (os_GetCSC() == 0);
 				os_ClrHome();
 				draw_full_stack();
