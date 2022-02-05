@@ -354,7 +354,7 @@ void main() {
 				os_SetCursorPos(0, 0);
 				os_PutStrFull("Arjun's RPN Calculator");
 				os_SetCursorPos(1, 0);
-				os_PutStrFull("v2.0 (ASM)");
+				os_PutStrFull("v2.1 (ASM)");
 				os_SetCursorPos(3, 0);
 				os_PutStrFull("git.io/ti84rpn");
 				while (os_GetCSC() == 0);
