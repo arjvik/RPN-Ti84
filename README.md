@@ -45,10 +45,12 @@ make install # Transfers to calculator (using TiLP)
 | <kbd>+</kbd>, <kbd>-</kbd>, <kbd>×</kbd>, <kbd>÷</kbd>, <kbd>^</kbd> | Binary arithmetic operations<br />Either pops one entry and uses current value, or pops two entries if current value is empty |
 | <kbd>,</kbd><br />(or <kbd>2nd</kbd><kbd>,</kbd> aka `EE` for muscle memory) | Scientific notation binary operator, i.e. `x10^`<br />E.g. <kbd>1.23</kbd><kbd>enter</kbd><kbd>6</kbd><kbd>,</kbd> places `1.23E6` on the stack. |
 | <kbd>log</kbd>, <kbd>ln</kbd>, <kbd>sin</kbd>, <kbd>cos</kbd>, <kbd>tan</kbd>, <kbd>x²</kbd>, <kbd>x⁻¹</kbd> | Unary arithmetic operations<br />Applies either to current value, or top stack entry if current value is empty |
+| <kbd>sto🡲</kbd>                                              | Stores current value, or top stack entry if current value is empty, in OS variable `X` |
 | <kbd>del</kbd>                                               | New problem<br />Clears current entry, stack; other settings remain |
 | <kbd>mode</kbd>                                              | Switch between 3-sigfig-scientific-notation and standard view |
 | <kbd>2nd</kbd><kbd>^</kbd> (`π`), <kbd>2nd</kbd><kbd>÷</kbd> (`e`) | Enter the constants pi or e into the current value<br />Continuing to type digits has strange effects here |
-| <kbd>2nd</kbd><kbd>log</kbd> (`10^`), <kbd>2nd</kbd><kbd>ln</kbd> (`e^`),<br /><kbd>2nd</kbd><kbd>sin</kbd> (`sin⁻¹`), <kbd>2nd</kbd><kbd>cos</kbd> (`cos⁻¹`),<br /><kbd>2nd</kbd><kbd>tan</kbd> (`tan⁻¹`), <kbd>2nd</kbd><kbd>x²</kbd> (`√`), | More unary arithmetic operations<br />                       |
+| <kbd>2nd</kbd><kbd>log</kbd> (`10^`), <kbd>2nd</kbd><kbd>ln</kbd> (`e^`),<br /><kbd>2nd</kbd><kbd>sin</kbd> (`sin⁻¹`), <kbd>2nd</kbd><kbd>cos</kbd> (`cos⁻¹`),<br /><kbd>2nd</kbd><kbd>tan</kbd> (`tan⁻¹`), <kbd>2nd</kbd><kbd>x²</kbd> (`√`) | More unary arithmetic operations<br />                       |
+| <kbd>2nd</kbd><kbd>sto🡲</kbd> (rcl)                          | Recalls the value of OS variable `X` into the current value  |
 | <kbd>2nd</kbd><kbd>apps</kbd> (angle)                        | Switch between degrees and radians for trigonometric functions<br />See hint in top right corner of screen |
 | <kbd>2nd</kbd><kbd>2nd</kbd>                                 | Leave "<kbd>2nd</kbd> mode"                                  |
 | <kbd>y=</kbd>                                                | About screen                                                 |
