@@ -1,5 +1,7 @@
 #include <tice.h>
 
+#define ti_X ("\x58\0\0") // <fileioc.h>
+
 real_t stack[101];
 char buffer[50];
 uint8_t idx;
@@ -109,6 +111,7 @@ void new_entry() {
 	decimal = false;
 	negative = false;
 	stack[idx] = r_0;
+	hint(" ");
 	draw_line_clear(true);
 }
 
@@ -210,6 +213,10 @@ void main() {
 				draw_line_clear(true);
 			} else if (key == sk_Div) {
 				stack[idx] = r_e;
+				constants_mode(false);
+				draw_line_clear(true);
+			} else if (key == sk_Store) {
+				os_GetRealVar(ti_X, &stack[idx]);
 				constants_mode(false);
 				draw_line_clear(true);
 			} else if (key == sk_Log) {
@@ -348,6 +355,16 @@ void main() {
 				UNARY_OP(os_RealInv);
 			} else if (key == sk_Comma) {
 				BINARY_OP(realScientificNotation);
+			} else if (key == sk_Store) {
+				if (os_RealCompare(&stack[idx], &r_0) != 0) {
+					os_SetRealVar(ti_X, &stack[idx]);
+					hint(">");
+				} else {
+					if (idx >= 1) {
+						os_SetRealVar(ti_X, &stack[idx-1]);
+						hint(">");
+					}
+				}
 			} else if (key == sk_2nd) {
 				constants_mode(true);
 			} else if (key == sk_Yequ) {
