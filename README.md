@@ -54,7 +54,7 @@ make install # Transfers to calculator (using TiLP)
 | <kbd>2nd</kbd><kbd>apps</kbd> (angle)                        | Switch between degrees and radians for trigonometric functions<br />See hint in top right corner of screen |
 | <kbd>2nd</kbd><kbd>2nd</kbd>                                 | Leave "<kbd>2nd</kbd> mode"                                  |
 | <kbd>y=</kbd>                                                | About screen                                                 |
-| <kbd>graph</kbd>                                             | Exit RPN program                                             |
+| <kbd>graph</kbd>, <kbd>2nd</kbd><kbd>quit</kbd>, or <kbd>on</kbd> | Exit RPN program                                             |
 
 Note: Most binary operations above are commutative or easy to reverse, except exponentiation. To compute `b^a` when `a` is before `b` on the stack, press <kbd>ln</kbd>, <kbd>×</kbd>, <kbd>2nd</kbd><kbd>ln</kbd>.
 
