@@ -205,7 +205,7 @@ void main() {
 	init_real_constants();
 	new_problem();
 	
-	while (!((key = os_GetCSC()) == sk_Graph || (constantsmode && key == sk_Mode) || boot_CheckOnPressed())) {
+	while (!((key = os_GetCSC()) == sk_Graph || (constantsmode && key == sk_Mode))) {
 		if (constantsmode) {
 			if (key == sk_Power) {
 				stack[idx] = r_pi;
