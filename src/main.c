@@ -122,7 +122,6 @@ void new_problem() {
 	os_ClrHome();
 	buffer[0] = 0;
 	new_entry();
-	os_SetListDim(ti_L1, 0);
 }
 
 #define BINARY_OP(os_func)												\
