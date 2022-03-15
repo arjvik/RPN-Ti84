@@ -1,6 +1,8 @@
 #include <tice.h>
 
-#define ti_X ("\x58\0\0") // <fileioc.h>
+// <fileioc.h>
+#define ti_X ("\x58\0\0")
+#define ti_L1 ("\x5D\x0\0")
 
 real_t stack[101];
 char buffer[50];
@@ -120,6 +122,7 @@ void new_problem() {
 	os_ClrHome();
 	buffer[0] = 0;
 	new_entry();
+	os_SetListDim(ti_L1, 0);
 }
 
 #define BINARY_OP(os_func)												\
@@ -128,6 +131,7 @@ do {																	\
 		if (idx >= 1) {													\
 			stack[idx-1] = os_func(&stack[idx-1], &stack[idx]);			\
 			draw_stack_clear(idx-1, true);								\
+			os_SetRealListElement(ti_L1, idx, &stack[idx-1]);           \
 			new_entry();												\
 		}																\
 	} else {															\
@@ -136,10 +140,12 @@ do {																	\
 			draw_stack_clear(idx-2, true);								\
 			delete_stack(idx-1);										\
 			idx--;														\
+			os_SetListDim(ti_L1, idx);                                  \
+			os_SetRealListElement(ti_L1, idx, &stack[idx-1]);           \
 			new_entry();												\
 		}																\
 	}																	\
-} while (false);
+} while (false) 
 
 #define UNARY_OP(os_func) 												\
 do {																	\
@@ -150,10 +156,11 @@ do {																	\
 		if (idx >= 1) {													\
 			stack[idx-1] = os_func(&stack[idx-1]);						\
 			draw_stack_clear(idx-1, true);								\
+			os_SetRealListElement(ti_L1, idx, &stack[idx-1]);           \
 			new_entry();												\
 		}																\
 	}																	\
-} while (false);
+} while (false) 
 
 #define REAL_TRIG(name, os_func)										\
 real_t name(real_t *a) {												\
@@ -316,12 +323,15 @@ void main() {
 					stack[idx-1] = stack[idx];
 					stack[idx] = r_0;
 					idx--;
+					os_SetListDim(ti_L1, idx);
 				}
 			} else if (key == sk_Enter) {
 				if (idx >= 99) {
 					new_problem();
 				} else {
 					draw_stack(idx++);
+					os_SetListDim(ti_L1, idx);
+					os_SetRealListElement(ti_L1, idx, &stack[idx-1]);
 					new_entry();
 				}
 			} else if (key == sk_Mode) {
