@@ -391,6 +391,38 @@ void main() {
 				draw_full_stack();
 				draw_line_clear(true);
 			}
+			else if (key == sk_Window)
+			{
+				os_ClrHome();
+
+				uint24_t font_height = os_FontGetHeight() + 3;
+				uint24_t spacing = font_height * 2; // So starts past bar
+				const char* keys[] = { 
+					"^  Pop stack", 
+					"<  Backspace",
+					"del  Clear stack",
+					"mode  Switch notation",
+					"sto>  Stores value",
+					"2nd sto>  Retrieves value",
+					"2nd apps  Deg/radians",
+					"graph / 2nd mode  Exit" ,
+					"clear  Clear value" ,
+					"enter  Push value to stack" ,
+					",  SCI binary operator" };
+
+				for (int i = 0; i < 11; i++)
+				{
+					os_FontDrawText(keys[i], 0, spacing);
+					spacing += font_height;
+				}
+
+				while (os_GetCSC() == 0);
+
+				os_ClrHome();
+				draw_full_stack();
+				draw_line_clear(true);
+
+			}
 		}
 	}
 }
