@@ -1,5 +1,9 @@
 # RPN-Ti84
 
+> [!IMPORTANT]  
+> I am no longer maintaining this repository, but it lives on as [`realprogrammersusevim`'s fork](https://github.com/realprogrammersusevim/RPN-Ti84)!  
+> The new version includes many bugfixes, and replaces Ti's unspecified math with IEEE floats.
+
 ### Advanced Reverse Polish Notation entry program for the Ti-84+CE calculators
 
 <p align="center"><img src=".github/demo.gif" alt="Demo GIF" /></p>
